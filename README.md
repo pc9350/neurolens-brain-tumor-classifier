@@ -2,6 +2,13 @@
 
 NeuroLens is an advanced web application designed to assist medical professionals in the analysis and classification of brain tumors from MRI scans. Leveraging state-of-the-art deep learning models and explainable AI techniques, NeuroLens provides detailed insights into brain tumor classification with visual explanations of focus areas.
 
+🔗 Live Demo (Hugging Face Space):
+https://pranavch-neurolens-brain-tumor.hf.space/
+
+📦 Model Weights:
+Hosted on Hugging Face and loaded at runtime.
+This repository contains code only.
+
 ## Features
 
 - **Multi-class Tumor Classification**: Classifies brain MRIs into Glioma, Meningioma, Pituitary, or No Tumor categories
