@@ -1211,12 +1211,12 @@ def display_sample_grid(samples, category_name, max_display_size=300):
                         # Use st.image with width parameter instead of resizing the actual image
                         st.image(sample_path, caption=f"Sample {i+1}", width=new_w)
                     else:
-                        st.image(sample_path, caption=f"Sample {i+1}", width="stretch")
+                        st.image(sample_path, caption=f"Sample {i+1}", use_container_width=True)
                 except Exception as e:
                     st.warning(f"Error displaying image: {str(e)}")
-                    st.image(sample_path, caption=f"Sample {i+1}", width="stretch")
+                    st.image(sample_path, caption=f"Sample {i+1}", use_container_width=True)
                 
-                if st.button(f"Select Sample {i+1}", key=f"{category_name}_{i}", width="stretch"):
+                if st.button(f"Select Sample {i+1}", key=f"{category_name}_{i}", use_container_width=True):
                     selected_sample = sample_path
     
     return selected_sample
@@ -1567,9 +1567,9 @@ elif st.session_state.current_page == "Analysis":
             # Display images
             col1, col2 = st.columns(2)
             with col1:
-                st.image(st.session_state.current_image_path, caption="Uploaded Image", width="stretch")
+                st.image(st.session_state.current_image_path, caption="Uploaded Image", use_container_width=True)
             with col2:
-                st.image(saliency_map, caption="Saliency Map", width="stretch")
+                st.image(saliency_map, caption="Saliency Map", use_container_width=True)
 
             # Show results
             st.write("## Classification Results")
@@ -1647,7 +1647,7 @@ elif st.session_state.current_page == "Analysis":
               )
 
             # Use the full width of the container
-            st.plotly_chart(fig, width="stretch")
+            st.plotly_chart(fig, use_container_width=True)
 
             # Model explanation
             saliency_map_path = f'saliency_maps/{st.session_state.current_image_name}'
@@ -1694,7 +1694,7 @@ elif st.session_state.current_page == "Analysis":
                     data=f,
                     file_name=report_filename,
                     mime="text/html",
-                    width="stretch"
+                    use_container_width=True
                 )
             
             # Update history
