@@ -1,14 +1,3 @@
----
-title: Neurolens Brain Tumor
-emoji: 📚
-colorFrom: purple
-colorTo: green
-sdk: streamlit
-sdk_version: 1.41.1
-app_file: app.py
-pinned: false
----
-
 # NeuroLens: AI-Powered Brain Tumor Analysis
 
 NeuroLens is an advanced web application designed to assist medical professionals in the analysis and classification of brain tumors from MRI scans. Leveraging state-of-the-art deep learning models and explainable AI techniques, NeuroLens provides detailed insights into brain tumor classification with visual explanations of focus areas.
