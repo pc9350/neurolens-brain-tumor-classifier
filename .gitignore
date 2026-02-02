@@ -1,0 +1,5 @@
+*.h5
+*.pt
+*.safetensors
+models/
+data/
