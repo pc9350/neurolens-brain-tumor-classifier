@@ -30,14 +30,19 @@ This repository contains code only.
 
 1. Clone the repository
 2. Install the requirements:
+
 ```
 pip install -r requirements.txt
 ```
+
 3. Set up your Google API key for Gemini:
+
 ```
 export GOOGLE_API_KEY=your_api_key_here
 ```
+
 4. Run the application:
+
 ```
 streamlit run app.py
 ```
@@ -54,12 +59,14 @@ streamlit run app.py
 ## Model Details
 
 ### Xception Transfer Learning Model
+
 - Base model: Xception pre-trained on ImageNet
 - Additional layers: Dropout and Dense layers for classification
 - Input size: 299×299×3
 - Classes: 4 (Glioma, Meningioma, No Tumor, Pituitary)
 
 ### Custom CNN Model
+
 - Architecture: Custom convolutional neural network
 - Input size: 224×224×3
 - Classes: 4 (Glioma, Meningioma, No Tumor, Pituitary)

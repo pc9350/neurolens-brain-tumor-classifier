@@ -42,11 +42,37 @@ jobs:
             --exclude '.env' \
             --exclude 'reports/' \
             --exclude 'saliency_maps/' \
+            --exclude 'README.md' \
             ./ hf-space/ || true
 
           cd hf-space
 
-          # Make sure .gitattributes exists for LFS (HF requires this)
+          # Create HF-specific README with required frontmatter
+          echo "---" > README.md
+          echo "title: Neurolens Brain Tumor" >> README.md
+          echo "emoji: 🧠" >> README.md
+          echo "colorFrom: purple" >> README.md
+          echo "colorTo: blue" >> README.md
+          echo "sdk: streamlit" >> README.md
+          echo "sdk_version: 1.41.1" >> README.md
+          echo "app_file: app.py" >> README.md
+          echo "pinned: false" >> README.md
+          echo "---" >> README.md
+          echo "" >> README.md
+          echo "# NeuroLens: AI-Powered Brain Tumor Analysis" >> README.md
+          echo "" >> README.md
+          echo "NeuroLens is an advanced web application for brain tumor classification from MRI scans using deep learning." >> README.md
+          echo "" >> README.md
+          echo "## Features" >> README.md
+          echo "- Multi-class Tumor Classification (Glioma, Meningioma, Pituitary, No Tumor)" >> README.md
+          echo "- Transfer Learning (Xception) and Custom CNN models" >> README.md
+          echo "- Explainable AI with saliency maps" >> README.md
+          echo "- AI-powered medical explanations via Google Gemini" >> README.md
+          echo "" >> README.md
+          echo "## GitHub Repository" >> README.md
+          echo "For full documentation: [GitHub](https://github.com/pc9350/neurolens-brain-tumor-classifier)" >> README.md
+
+          # Make sure .gitattributes exists for LFS
           if [ ! -f .gitattributes ]; then
             echo "*.h5 filter=lfs diff=lfs merge=lfs -text" > .gitattributes
             echo "*.weights.h5 filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
