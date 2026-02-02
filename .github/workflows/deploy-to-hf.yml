@@ -22,7 +22,7 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git clone https://Pranavch:${HF_TOKEN}@huggingface.co/spaces/Pranavch/neurolens-tumor-classifier hf-space
+          git clone https://Pranavch:${HF_TOKEN}@huggingface.co/spaces/Pranavch/neurolens-brain-tumor hf-space
           rsync -av --delete \
             --exclude '.git' \
             --exclude '.github' \

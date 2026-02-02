@@ -29,6 +29,14 @@ import io
 import base64
 from datetime import datetime
 import tempfile
+from huggingface_hub import hf_hub_download
+
+MODEL_REPO = "Pranavch/neurolens-brain-tumor-model"
+
+MODEL_FILES = {
+    "Xception": "xception_model.weights.h5",        # or .weights.h5 if that’s what you uploaded
+    "Custom CNN": "cnn_model.h5",
+}
 
 # Configure page 
 st.set_page_config(
@@ -1203,12 +1211,12 @@ def display_sample_grid(samples, category_name, max_display_size=300):
                         # Use st.image with width parameter instead of resizing the actual image
                         st.image(sample_path, caption=f"Sample {i+1}", width=new_w)
                     else:
-                        st.image(sample_path, caption=f"Sample {i+1}", use_column_width=True)
+                        st.image(sample_path, caption=f"Sample {i+1}", width="stretch")
                 except Exception as e:
                     st.warning(f"Error displaying image: {str(e)}")
-                    st.image(sample_path, caption=f"Sample {i+1}", use_column_width=True)
+                    st.image(sample_path, caption=f"Sample {i+1}", width="stretch")
                 
-                if st.button(f"Select Sample {i+1}", key=f"{category_name}_{i}", use_container_width=True):
+                if st.button(f"Select Sample {i+1}", key=f"{category_name}_{i}", width="stretch"):
                     selected_sample = sample_path
     
     return selected_sample
@@ -1383,9 +1391,10 @@ elif st.session_state.current_page == "Analysis":
         
         # Add back the radio button for model selection
         model_choice = st.radio(
-            "",  # No label since we already have a subheader
+            "Select Model",  # Proper label for accessibility
             ["Xception", "Custom CNN"],
-            horizontal=True  # Horizontal layout for better visibility
+            horizontal=True,  # Horizontal layout for better visibility
+            label_visibility="collapsed"  # Hide the label since we have a subheader
         )
     
     # Update the session state
@@ -1407,29 +1416,40 @@ elif st.session_state.current_page == "Analysis":
     
     # Load the selected model immediately (before image upload)
     # This prevents having to reload after selecting a model
+    def get_model_path(model_key):
+        return hf_hub_download(
+            repo_id=MODEL_REPO,
+            filename=MODEL_FILES[model_key],
+            token=False  # Public repo, no auth needed
+        )
+
     if model_choice == "Xception":
         try:
-            model = load_xception_model('xception_model.weights.h5')
+            model_path = get_model_path("Xception")
+            model = load_xception_model(model_path)
             if model is None:
                 raise Exception("Failed to load Xception model")
-            img_size = (299,299)
+            img_size = (299, 299)
         except Exception as e:
             st.error(f"Error loading Xception model: {str(e)}")
             st.stop()
     else:  # Custom CNN
         try:
-            model = load_model('cnn_model.h5', compile=False)
+            model_path = get_model_path("Custom CNN")
+            model = load_model(model_path, compile=False)
             if model is None:
                 raise Exception("Failed to load CNN model")
+
             model.compile(
                 optimizer=Adamax(learning_rate=0.001),
                 loss='categorical_crossentropy',
                 metrics=['accuracy', Precision(), Recall()]
             )
-            img_size = (224,224)
+            img_size = (224, 224)
         except Exception as e:
             st.error(f"Error loading CNN model: {str(e)}")
             st.stop()
+
     
     # SECOND - Now show tabs for upload or sample selection
     upload_tab, sample_tab = st.tabs(["Upload Your Image", "Try Sample Images"])
@@ -1547,9 +1567,9 @@ elif st.session_state.current_page == "Analysis":
             # Display images
             col1, col2 = st.columns(2)
             with col1:
-                st.image(st.session_state.current_image_path, caption="Uploaded Image", use_container_width=True)
+                st.image(st.session_state.current_image_path, caption="Uploaded Image", width="stretch")
             with col2:
-                st.image(saliency_map, caption="Saliency Map", use_container_width=True)
+                st.image(saliency_map, caption="Saliency Map", width="stretch")
 
             # Show results
             st.write("## Classification Results")
@@ -1627,7 +1647,7 @@ elif st.session_state.current_page == "Analysis":
               )
 
             # Use the full width of the container
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
 
             # Model explanation
             saliency_map_path = f'saliency_maps/{st.session_state.current_image_name}'
@@ -1674,7 +1694,7 @@ elif st.session_state.current_page == "Analysis":
                     data=f,
                     file_name=report_filename,
                     mime="text/html",
-                    use_container_width=True
+                    width="stretch"
                 )
             
             # Update history
