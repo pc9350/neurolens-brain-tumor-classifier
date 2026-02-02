@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          lfs: true # Fetch LFS files if any
 
       - name: Set up Git
         run: |
@@ -23,10 +25,23 @@ jobs:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
           git clone https://Pranavch:${HF_TOKEN}@huggingface.co/spaces/Pranavch/neurolens-brain-tumor hf-space
-          rsync -av --delete \
+
+          # Use rsync with --ignore-errors to handle vanishing files gracefully
+          # Exclude model files that are stored on HF Hub separately
+          rsync -av --delete --ignore-errors \
             --exclude '.git' \
             --exclude '.github' \
-            ./ hf-space/
+            --exclude '*.h5' \
+            --exclude '*.weights.h5' \
+            --exclude '*.pt' \
+            --exclude '*.safetensors' \
+            --exclude 'venv/' \
+            --exclude '__pycache__/' \
+            --exclude '.env' \
+            --exclude 'reports/' \
+            --exclude 'saliency_maps/' \
+            ./ hf-space/ || true
+
           cd hf-space
           git add .
           git commit -m "Auto-deploy from GitHub" || echo "No changes to commit"
