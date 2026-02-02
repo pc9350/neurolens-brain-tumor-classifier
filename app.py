@@ -94,100 +94,27 @@ st.markdown(
     
     /* Add a subtle gradient background to sidebar */
     [data-testid="stSidebar"] > div:first-child {
-        background: linear-gradient(180deg, #0E1117, #171923);
+        background: linear-gradient(180deg, #0E1117, #131720);
     }
     
-    /* SUPER AGGRESSIVE RADIO BUTTON STYLING */
-    /* Force label text to be visible */
-    div[data-testid="stRadio"] > label {
-        color: #FFFFFF !important; 
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        margin-bottom: 15px !important;
-        display: block !important;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5) !important;
+    /* Sidebar navigation buttons */
+    [data-testid="stSidebar"] .stButton button {
+        background-color: rgba(30, 41, 59, 0.6) !important;
+        border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        color: #e2e8f0 !important;
+        text-align: left !important;
+        padding: 12px 16px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
     }
     
-    /* Force radio container to stand out */
-    div[data-testid="stRadio"] {
-        background-color: transparent !important;
-        padding: 15px !important;
-        border: 2px solid rgba(255, 255, 255, 0.5) !important;
-        border-radius: 10px !important;
-        margin-bottom: 20px !important;
+    [data-testid="stSidebar"] .stButton button:hover {
+        background-color: rgba(59, 130, 246, 0.2) !important;
+        border-color: rgba(59, 130, 246, 0.5) !important;
+        transform: none !important;
+        box-shadow: none !important;
     }
     
-    /* Make radio button container visible */
-    div[role="radiogroup"] > div {
-        background-color: rgba(30, 30, 30, 0.8) !important;
-        border-radius: 8px !important;
-        padding: 5px !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        margin-bottom: 10px !important;
-    }
-    
-    /* Make individual radio buttons HUGE and bright */
-    div[role="radiogroup"] input[type="radio"] {
-        width: 28px !important;
-        height: 28px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: inline-block !important;
-        margin-right: 10px !important;
-        cursor: pointer !important;
-        accent-color: #FFFFFF !important;
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important;
-        border: 3px solid #FFFFFF !important;
-    }
-    
-    /* Make sure the text in radio buttons is extremely visible */
-    div[role="radiogroup"] label {
-        padding: 10px 15px !important;
-        margin: 5px !important;
-        display: flex !important;
-        align-items: center !important;
-        cursor: pointer !important;
-        border-radius: 8px !important;
-        background-color: rgba(50, 50, 50, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    }
-    
-    /* Super bright text for radio options */
-    div[role="radiogroup"] label p,
-    div[role="radiogroup"] label span {
-        color: #FFFFFF !important;
-        font-size: 16px !important;
-        font-weight: 600 !important;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5) !important;
-    }
-    
-    /* Extremely obvious selected state */
-    div[role="radiogroup"] label[data-checked="true"] {
-        background-color: rgba(0, 119, 255, 0.5) !important;
-        border: 2px solid #FFFFFF !important;
-        box-shadow: 0 0 20px rgba(0, 119, 255, 0.6) !important;
-    }
-    
-    /* Extremely visible selected text */
-    div[role="radiogroup"] label[data-checked="true"] p,
-    div[role="radiogroup"] label[data-checked="true"] span {
-        color: #FFFFFF !important;
-        font-weight: 800 !important;
-        font-size: 16px !important;
-        text-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important;
-    }
-    
-    /* Even more aggressive styling */
-    body div[data-testid="stRadio"] > div > div > div[role="radiogroup"] label {
-        background-color: rgba(50, 50, 50, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    }
-    
-    body div[data-testid="stRadio"] > div > div > div[role="radiogroup"] label[data-checked="true"] {
-        background-color: rgba(0, 119, 255, 0.5) !important;
-        border: 2px solid #FFFFFF !important;
-    }
-
     /* Set text color for the file uploader label (e.g., "Choose an image") */
     div[data-testid="stFileUploader"] > label {
         color: #FFFFFF !important; /* White color for the file uploader label */
@@ -241,7 +168,7 @@ st.markdown(
 
     /* Custom header with gradient */
     .gradient-header {
-        background: linear-gradient(90deg, #8A2387, #E94057, #F27121);
+        background: linear-gradient(90deg, #3b82f6, #60a5fa);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
@@ -600,96 +527,49 @@ st.markdown(
     </style>
     """, unsafe_allow_html=True)
 
-# Sidebar navigation - completely rewritten for better appearance
+# Sidebar navigation - using simple buttons instead of option_menu
 with st.sidebar:
+    # Logo
     st.markdown("""
-    <h1 style='
-        text-align: center; 
-        font-size: 1.8rem; 
-        margin-bottom: 25px; 
-        font-weight: 600;
-        background: linear-gradient(90deg, #1565C0, #0D47A1, #1565C0); 
-        -webkit-background-clip: text; 
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    '>
-        <span style="margin-right: 8px;">🧠</span>
-        <span>NeuroLens</span>
-    </h1>
+    <div style='text-align: center; padding: 20px 0 30px 0;'>
+        <h1 style='
+            font-size: 1.6rem; 
+            font-weight: 700;
+            color: #3b82f6;
+            margin: 0;
+        '>🧠 NeuroLens</h1>
+        <p style='color: #64748b; font-size: 0.75rem; margin-top: 5px;'>Brain Tumor Analysis</p>
+    </div>
     """, unsafe_allow_html=True)
     
-    # Add custom CSS just for the navigation menu
-    st.markdown("""
-    <style>
-    /* Option menu container */
-    div[data-testid="stVerticalBlock"] div[data-testid="stVerticalBlock"] {
-        background-color: transparent !important;
-    }
+    st.markdown("<hr style='border-color: rgba(255,255,255,0.1); margin: 0 0 20px 0;'>", unsafe_allow_html=True)
     
-    /* Remove background from all sidebar elements */
-    section[data-testid="stSidebarUserContent"] * {
-        background-color: transparent !important;
-    }
+    # Navigation buttons
+    nav_options = ["Home", "Analysis", "About"]
+    nav_icons = ["🏠", "🔬", "ℹ️"]
     
-    /* Add hover effect for nav links */
-    .nav-link:hover {
-        transform: translateY(-2px) !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
-        background-color: #263952 !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    for i, (option, icon) in enumerate(zip(nav_options, nav_icons)):
+        is_selected = st.session_state.current_page == option
+        
+        # Style based on selection
+        if is_selected:
+            btn_style = "background: linear-gradient(90deg, #3b82f6, #2563eb); color: white; font-weight: 600;"
+        else:
+            btn_style = "background: transparent; color: #94a3b8;"
+        
+        if st.button(
+            f"{icon}  {option}",
+            key=f"nav_{option}",
+            use_container_width=True,
+        ):
+            if st.session_state.current_page != option:
+                st.session_state.current_page = option
+                st.rerun()
     
-    # Add some space
-    st.markdown("<div style='height: 10px'></div>", unsafe_allow_html=True)
-    
-    # Simplified option menu with cleaner styling
-    selected = option_menu(
-        menu_title=None,
-        options=["Home", "Analysis", "About"],
-        icons=["house", "activity", "info-circle"],
-        menu_icon="cast",
-        default_index=["Home", "Analysis", "About"].index(st.session_state.current_page),
-        styles={
-            "container": {"padding": "0", "background-color": "transparent"},
-            "icon": {"font-size": "18px", "color": "#90CAF9"}, 
-            "nav-link": {
-                "font-size": "15px", 
-                "text-align": "left", 
-                "margin": "10px 0", 
-                "padding": "12px 15px",
-                "border-radius": "7px",
-                "background-color": "#1E293B",
-                "color": "#E0E0E0",
-                "font-weight": "400",
-                "border": "1px solid rgba(255, 255, 255, 0.05)",
-                "box-shadow": "0 2px 4px rgba(0, 0, 0, 0.1)",
-                "transition": "all 0.3s ease"
-            },
-            "nav-link-selected": {
-                "background": "linear-gradient(90deg, #1565C0, #0D47A1)",
-                "color": "#FFFFFF",
-                "font-weight": "500",
-                "border": "none",
-                "box-shadow": "0 2px 6px rgba(21, 101, 192, 0.4)"
-            },
-        }
-    )
-    
-    # Only update the page if a new page is selected
-    # This is the key change - don't update state if it's already that page
-    if selected != st.session_state.current_page:
-        st.session_state.current_page = selected
-        # Force a rerun to properly update the page content
-        st.rerun()
-    
-    # Add copyright info with cleaner styling
-    st.markdown("<div style='position: fixed; bottom: 20px; left: 0; right: 0; text-align: center;'><hr style='margin: 20px 15px; border-color: rgba(255,255,255,0.05);'></div>", unsafe_allow_html=True)
-    st.markdown("<div style='position: fixed; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px; color: #78909C; font-size: 12px;'>© 2023 NeuroLens</div>", unsafe_allow_html=True)
+    # Footer
+    st.markdown("<div style='flex-grow: 1; min-height: 300px;'></div>", unsafe_allow_html=True)
+    st.markdown("<hr style='border-color: rgba(255,255,255,0.1); margin: 20px 0;'>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: #64748b; font-size: 11px;'>© 2025 NeuroLens</p>", unsafe_allow_html=True)
 
 def generate_explanation(img_path, model_prediction, confidence):
     try:
@@ -1246,21 +1126,21 @@ if st.session_state.current_page == "Home":
         """, unsafe_allow_html=True)
         
     with col2:
-        # Static brain MRI image instead of Lottie animation
+        # Static brain MRI image - clean blue theme
         st.markdown("""
-        <div style="background: linear-gradient(145deg, rgba(33, 150, 243, 0.1), rgba(156, 39, 176, 0.1)); 
+        <div style="background: rgba(59, 130, 246, 0.1); 
+                    border: 1px solid rgba(59, 130, 246, 0.3);
                     border-radius: 12px; 
                     padding: 20px; 
-                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
                     height: 280px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     flex-direction: column;
                     text-align: center;">
-            <img src="https://cdn-icons-png.flaticon.com/512/4616/4616734.png" 
-                 style="max-width: 150px; margin-bottom: 20px;" alt="Brain MRI">
-            <h3 style="color: #90CAF9; margin-bottom: 10px;">Advanced MRI Analysis</h3>
+            <div style="font-size: 4rem; margin-bottom: 15px;">🧠</div>
+            <h3 style="color: #3b82f6; margin: 0 0 8px 0; font-size: 1.1rem;">Advanced MRI Analysis</h3>
+            <p style="color: #94a3b8; font-size: 0.85rem; margin: 0;">Powered by Deep Learning</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1272,24 +1152,24 @@ if st.session_state.current_page == "Home":
     with feature_col1:
         st.markdown("""
         <div class="card">
-            <h3 style="color: #4CAF50;">🔍 Tumor Classification</h3>
-            <p>Classify brain tumors into multiple categories: Glioma, Meningioma, Pituitary, or No Tumor with high accuracy.</p>
+            <h3 style="color: #3b82f6;">🔍 Tumor Classification</h3>
+            <p style="color: #94a3b8;">Classify brain tumors into multiple categories: Glioma, Meningioma, Pituitary, or No Tumor with high accuracy.</p>
         </div>
         """, unsafe_allow_html=True)
         
     with feature_col2:
         st.markdown("""
         <div class="card">
-            <h3 style="color: #2196F3;">🔥 Saliency Maps</h3>
-            <p>Visualize which areas of the brain scan the model is focusing on to make its predictions, enhancing explainability.</p>
+            <h3 style="color: #3b82f6;">🔥 Saliency Maps</h3>
+            <p style="color: #94a3b8;">Visualize which areas of the brain scan the model is focusing on to make its predictions.</p>
         </div>
         """, unsafe_allow_html=True)
         
     with feature_col3:
         st.markdown("""
         <div class="card">
-            <h3 style="color: #FFC107;">📊 Detailed Analysis</h3>
-            <p>Get comprehensive probability scores for each class and expert-like explanations of the findings using AI.</p>
+            <h3 style="color: #3b82f6;">📊 AI Analysis</h3>
+            <p style="color: #94a3b8;">Get comprehensive probability scores and expert-like explanations powered by AI.</p>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1779,8 +1659,8 @@ elif st.session_state.current_page == "About":
     st.markdown("""
     <div class="card">
         <p>For questions, feedback, or collaboration opportunities, please contact:</p>
-        <p><strong>Email:</strong> neurolens.project@example.com</p>
-        <p><strong>GitHub:</strong> <a href="https://huggingface.co/spaces/Pranavch/neurolens-brain-tumor" style="color: #2196F3;">Pranavch/neurolens-brain-tumor</a></p>
+        <p><strong>Email:</strong> <a href="mailto:chhabrapranav2001@gmail.com" style="color: #2196F3;">chhabrapranav2001@gmail.com</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/pc9350/neurolens-brain-tumor-classifier" style="color: #2196F3;">pc9350/neurolens-brain-tumor-classifier</a></p>
     </div>
     """, unsafe_allow_html=True)
 
