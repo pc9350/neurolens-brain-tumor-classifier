@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          lfs: true # Fetch LFS files if any
+          lfs: true
 
       - name: Set up Git
         run: |
@@ -24,13 +24,15 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
+          # Clone HF Space
           git clone https://Pranavch:${HF_TOKEN}@huggingface.co/spaces/Pranavch/neurolens-brain-tumor hf-space
 
-          # Use rsync with --ignore-errors to handle vanishing files gracefully
-          # Exclude model files that are stored on HF Hub separately
-          rsync -av --delete --ignore-errors \
+          # Sync only code files to hf-space, preserving HF-specific files
+          rsync -av --delete \
             --exclude '.git' \
             --exclude '.github' \
+            --exclude '.gitattributes' \
+            --exclude 'hf-space' \
             --exclude '*.h5' \
             --exclude '*.weights.h5' \
             --exclude '*.pt' \
@@ -43,6 +45,13 @@ jobs:
             ./ hf-space/ || true
 
           cd hf-space
+
+          # Make sure .gitattributes exists for LFS (HF requires this)
+          if [ ! -f .gitattributes ]; then
+            echo "*.h5 filter=lfs diff=lfs merge=lfs -text" > .gitattributes
+            echo "*.weights.h5 filter=lfs diff=lfs merge=lfs -text" >> .gitattributes
+          fi
+
           git add .
           git commit -m "Auto-deploy from GitHub" || echo "No changes to commit"
           git push
