@@ -46,10 +46,10 @@ desktop.ini
 .keras/
 
 # Reports (if you want to ignore generated reports)
-# reports/
+reports/
 
 # Saliency maps (if you want to ignore generated maps)
-# saliency_maps/
+saliency_maps/
 
 # HuggingFace cache
 .cache/

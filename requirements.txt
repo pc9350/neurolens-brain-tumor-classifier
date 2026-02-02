@@ -1,4 +1,4 @@
-streamlit>=1.31.0
+streamlit>=1.41.0
 tensorflow-cpu
 numpy
 pandas
